@@ -10,7 +10,7 @@
 
 // [[Rcpp::export]]
 Rcpp::List regression_train(Rcpp::NumericMatrix input_data,
-                            size_t outcome_index,
+                            std::vector<size_t> outcome_index,
                             std::vector <std::string> variable_names,
                             unsigned int mtry,
                             unsigned int num_trees,
@@ -29,9 +29,13 @@ Rcpp::List regression_train(Rcpp::NumericMatrix input_data,
                             bool downweight_penalty) {
   Data* data = RcppUtilities::convert_data(input_data, variable_names);
 
+  for (size_t i = 0; i < outcome_index.size(); ++i) {
+    outcome_index[i] = outcome_index[i] - 1;
+  }
+    
   ForestTrainer trainer = lambda > 0
-      ? ForestTrainers::regularized_regression_trainer(data, outcome_index - 1, lambda, downweight_penalty)
-      : ForestTrainers::regression_trainer(data, outcome_index - 1, alpha);
+      ? ForestTrainers::regularized_regression_trainer(data, outcome_index[0], lambda, downweight_penalty)
+      : ForestTrainers::regression_trainer(data, outcome_index, alpha);
 
   RcppUtilities::initialize_trainer(trainer, mtry, num_trees, num_threads, min_node_size,
       sample_with_replacement, sample_fraction, no_split_variables, seed, honesty, ci_group_size);
@@ -54,6 +58,8 @@ Rcpp::List regression_predict(Rcpp::List forest_object,
 
   ForestPredictor predictor = ForestPredictors::regression_predictor(num_threads, ci_group_size);
   std::vector<Prediction> predictions = predictor.predict(forest, data);
+ // std::cout << predictions[0].size() << std::endl;
+ // std::cout << predictions[0].get_predictions() << std::endl;
 
   Rcpp::List result = RcppUtilities::create_prediction_object(predictions);
   delete data;

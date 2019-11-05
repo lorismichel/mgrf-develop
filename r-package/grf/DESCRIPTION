@@ -19,7 +19,7 @@ License: GPL-3
 LinkingTo: Rcpp
 Imports:
     Rcpp (>= 0.12.10)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Suggests:
     sandwich, testthat
 SystemRequirements: GNU make

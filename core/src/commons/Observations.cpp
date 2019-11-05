@@ -31,7 +31,7 @@ Observations::Observations(const std::vector<Eigen::MatrixXd>& observations_by_t
   observations_by_type(observations_by_type),
   num_samples(num_samples) {}
 
-Eigen::VectorXd Observations::get(std::size_t type, size_t sample) const {
+Eigen::MatrixXd Observations::get(std::size_t type, size_t sample) const {
   return observations_by_type[type].row(sample);
 }
 

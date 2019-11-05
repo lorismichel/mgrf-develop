@@ -35,7 +35,7 @@ public:
                                         double alpha);
 
   static ForestTrainer regression_trainer(Data* data,
-                                          size_t outcome_index,
+                                          std::vector<size_t> outcome_index,
                                           double alpha);
 
   static ForestTrainer custom_trainer(Data* data,

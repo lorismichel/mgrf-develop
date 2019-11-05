@@ -51,7 +51,7 @@ public:
   * average_prediction_values: the 'prediction values' computed during
   *     training, averaged across all leaves this test sample landed in.
   */
-  virtual Eigen::VectorXd predict(const std::vector<Eigen::MatrixXd>& average_prediction_values) = 0;
+  virtual Eigen::MatrixXd predict(const std::vector<Eigen::MatrixXd>& average_prediction_values) = 0;
 
  /**
   * Computes a prediction variance estimate for a single test sample.

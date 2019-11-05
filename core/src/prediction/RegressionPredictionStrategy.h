@@ -33,7 +33,7 @@ public:
 
   size_t prediction_length();
 
-    Eigen::VectorXd predict(const std::vector<Eigen::MatrixXd>& average);
+    Eigen::MatrixXd predict(const std::vector<Eigen::MatrixXd>& average);
 
     Eigen::VectorXd compute_variance(
       const std::vector<Eigen::MatrixXd>& average,

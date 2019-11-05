@@ -22,10 +22,11 @@
 const size_t RegressionPredictionStrategy::OUTCOME = 0;
 
 size_t RegressionPredictionStrategy::prediction_length() {
-    return 1;
+    return 4;
 }
 
-Eigen::VectorXd RegressionPredictionStrategy::predict(const std::vector<Eigen::MatrixXd>& average) {
+Eigen::MatrixXd RegressionPredictionStrategy::predict(const std::vector<Eigen::MatrixXd>& average) {
+ // std::cout << average.at(OUTCOME) << std::endl;
   return average.at(OUTCOME);
 }
 
@@ -84,7 +85,7 @@ Eigen::VectorXd RegressionPredictionStrategy::compute_variance(
 
 
 size_t RegressionPredictionStrategy::prediction_value_length() {
-  return 1;
+  return 4;
 }
 
 PredictionValues RegressionPredictionStrategy::precompute_prediction_values(
@@ -102,13 +103,30 @@ PredictionValues RegressionPredictionStrategy::precompute_prediction_values(
     std::vector<Eigen::MatrixXd>& averages = values[i];
     averages.resize(1);
 
-    double average = 0.0;
+   // double average = 0.0;
+   // Eigen::MatrixXd mat (1,3);
+
+    Eigen::MatrixXd average = Eigen::MatrixXd::Zero(1, 4);
     for (auto& sample : leaf_node) {
-      average += observations.get(Observations::OUTCOME, sample)(0);
+     // mat << observations.get(Observations::OUTCOME, sample);//(0);
+      //std::cout << "size: " << mat.size() << std::endl;
+      //std::cout << "cols: " << mat.cols() << std::endl;
+      //std::cout <<"rows: " << mat.rows() << std::endl;
+      //std::cout << "mat:" << mat << std::endl;
+      //std::cout << average << std::endl;
+       //std::cout << observations.get(Observations::OUTCOME, sample).cols() << std::endl;
+      //std::cout << observations.get(Observations::OUTCOME, sample) << std::endl;
+      average += observations.get(Observations::OUTCOME, sample);
+      
     }
-    Eigen::MatrixXd mat (1,1);
+    Eigen::MatrixXd mat (1,4);
+    //std::cout << average << std::endl;
     mat << average / leaf_node.size();
+    //std::cout << mat << std::endl;
     averages[OUTCOME] = mat;
+    
+   // std::cout << averages[OUTCOME].cols() << std::endl;
+
   }
 
   return PredictionValues(values, num_leaves, 1);

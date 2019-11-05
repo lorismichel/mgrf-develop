@@ -41,7 +41,7 @@ public:
   }
 
   const size_t size() const {
-    return predictions.size();
+    return predictions.cols();
   }
 
 private:

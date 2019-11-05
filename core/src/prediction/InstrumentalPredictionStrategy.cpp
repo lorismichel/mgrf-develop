@@ -35,7 +35,7 @@ size_t InstrumentalPredictionStrategy::prediction_length() {
     return prediction_size;
 }
 
-Eigen::VectorXd InstrumentalPredictionStrategy::predict(const std::vector<Eigen::MatrixXd>& average) {
+Eigen::MatrixXd InstrumentalPredictionStrategy::predict(const std::vector<Eigen::MatrixXd>& average) {
   prediction_size = average.at(INSTRUMENT).size();
   Eigen::VectorXd instrument_effect = average.at(OUTCOME_INSTRUMENT) - average.at(INSTRUMENT) * average.at(OUTCOME);
   Eigen::MatrixXd first_stage = average.at(TREATMENT_INSTRUMENT) - average.at(INSTRUMENT) * average.at(TREATMENT).transpose();

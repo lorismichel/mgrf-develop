@@ -52,7 +52,7 @@ regression_forest <- function(X, Y, sample.fraction = 0.5, mtry = ceiling(2*ncol
                               downweight.penalty = FALSE, seed = NULL) {
 
     validate_X(X)
-    if(length(Y) != nrow(X)) { stop("Y has incorrect length.") }
+    #if(length(Y) != nrow(X)) { stop("Y has incorrect length.") }
 
     mtry <- validate_mtry(mtry)
     num.threads <- validate_num_threads(num.threads)
@@ -67,7 +67,7 @@ regression_forest <- function(X, Y, sample.fraction = 0.5, mtry = ceiling(2*ncol
 
     input.data <- as.matrix(cbind(X, Y))
     variable.names <- c(colnames(X), "outcome")
-    outcome.index <- ncol(input.data)
+    outcome.index <- (ncol(X)+1):ncol(input.data)
 
     forest <- regression_train(input.data, outcome.index, variable.names, mtry, num.trees,
         verbose, num.threads, min.node.size, sample.with.replacement, keep.inbag, sample.fraction,

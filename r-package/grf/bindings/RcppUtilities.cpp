@@ -91,14 +91,31 @@ Rcpp::NumericMatrix RcppUtilities::create_prediction_matrix(const std::vector<Pr
 
   size_t prediction_length = predictions.at(0).size();
   Rcpp::NumericMatrix result(predictions.size(), prediction_length);
-
+  //Eigen::MatrixXd result(predictions.size(), prediction_length);
+  //Eigen::MatrixXd preds;
+  
   for (size_t i = 0; i < predictions.size(); i++) {
-    const Eigen::VectorXd& prediction = predictions[i].get_predictions();
+    const Eigen::MatrixXd& prediction = predictions[i].get_predictions();
+
+    //if (i == 0) {
+    //  Eigen::MatrixXd preds = prediction;
+    //} else {
+    //  Eigen::MatrixXd predsCur(preds.rows()+prediction.rows(), preds.cols()); // <-- D(A.rows() + B.rows(), ...)
+    //  predsCur << preds, prediction; // <-- syntax is the same for vertical and horizontal concatenation
+    //  preds = predsCur;
+    //}
+    
     for (size_t j = 0; j < prediction.size(); j++) {
-      double value = prediction(j);
-      result(i, j) = value;
+      //std::cout << prediction << std::endl;
+      //std::cout << prediction.cols() << std::endl;
+      //std::cout << prediction.size() << std::endl;
+      //double value = prediction.coeff(1,j);
+      //std::cout << value << std::endl;
+     result(i, j) = prediction.coeff(0,j);
     }
   }
+  //std::cout << preds << std::endl;
+  //return Rcpp::NumericMatrix(Rcpp::wrap(preds));
   return result;
 }
 

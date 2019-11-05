@@ -65,8 +65,7 @@ std::vector<Prediction> DefaultPredictionCollector::collect_predictions(
     double *ptr = &pred_vector[0];
     Eigen::Map<Eigen::VectorXd> pred_vectorxd(ptr, pred_vector.size());
     Prediction prediction(pred_vectorxd);
-
-    validate_prediction(sample, prediction);
+   // validate_prediction(sample, prediction);
     predictions.push_back(prediction);
   }
   return predictions;

@@ -60,9 +60,9 @@ ForestTrainer ForestTrainers::quantile_trainer(Data* data,
 }
 
 ForestTrainer ForestTrainers::regression_trainer(Data* data,
-                                                 size_t outcome_index,
+                                                 std::vector<size_t> outcome_index,
                                                  double alpha) {
-    std::unordered_map<size_t, std::vector<size_t>> observables = {{Observations::OUTCOME, {outcome_index}}};
+    std::unordered_map<size_t, std::vector<size_t>> observables = {{Observations::OUTCOME, outcome_index}};
 
     std::shared_ptr<RelabelingStrategy> relabeling_strategy(new NoopRelabelingStrategy());
     std::shared_ptr<SplittingRuleFactory> splitting_rule_factory(new RegressionSplittingRuleFactory(data, alpha));

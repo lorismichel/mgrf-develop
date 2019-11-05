@@ -30,7 +30,7 @@ public:
     Observations(const std::vector<Eigen::MatrixXd>& observations_by_type,
                  size_t num_samples);
 
-    Eigen::VectorXd get(std::size_t type, size_t sample) const;
+    Eigen::MatrixXd get(std::size_t type, size_t sample) const;
 
     const std::vector<Eigen::MatrixXd>& get_observations_by_type() const {
         return observations_by_type;
